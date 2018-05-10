@@ -466,33 +466,34 @@ namespace Capella
             req.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
             req.KeepAlive = true;
 
-            String request = "client_id=" + UrlEncode(consumerKey) + "&client_secret=" + UrlEncode(consumerSecret) + "&grant_type=password&username=" + UrlEncode(username) + "&password=" + UrlEncode(password) + "&scope=" + UrlEncode("read write follow");
+            //String request = "client_id=" + UrlEncode(consumerKey) + "&client_secret=" + UrlEncode(consumerSecret) + "&grant_type=password&username=" + UrlEncode(username) + "&password=" + UrlEncode(password) + "&scope=" + UrlEncode("read write follow");
+            String request = "client_id=" + UrlEncode(consumerKey) + "&client_secret=" + UrlEncode(consumerSecret) + "&response_type=code&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=" + UrlEncode("read write follow");
+            System.Diagnostics.Process.Start($"{endpoint}oauth/authorize/?{request}");
+            // using (var writer = new StreamWriter(req.GetRequestStream()))
+            //     writer.Write(request);
 
-            using (var writer = new StreamWriter(req.GetRequestStream()))
-                writer.Write(request);
+            //HttpWebResponse response = (HttpWebResponse)req.GetResponse();
 
-            HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+            //Stream stream = response.GetResponseStream();
+            //StreamReader reader = new StreamReader(stream);
 
-            Stream stream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(stream);
+            //String output = reader.ReadToEnd();
 
-            String output = reader.ReadToEnd();
-
-            Console.WriteLine(output);
+            //Console.WriteLine(output);
 
             String token = "";
 
             try
             {
-                dynamic json = JsonConvert.DeserializeObject(output);
-                token = json["access_token"];
+                //dynamic json = JsonConvert.DeserializeObject(output);
+                //token = json["access_token"];
             } catch (Exception e)
             {
                 token = "";
             }
 
-            reader.Close();
-            reader.Dispose();
+            //reader.Close();
+            //reader.Dispose();
             return token;
         }
 
